@@ -1,29 +1,28 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SocketAPI {
+public class OriginalSocket {
 
 	private ServerSocket server = null;
 	private Socket socket = null;
-	private OutputStreamWriter output;
-	private InputStreamReader input;
+	private BufferedReader reader = null;
+	private PrintWriter writer = null;
 
 	private void buffer() { // buffer変数作成
 		try {
 			// socket送信
-			output = new OutputStreamWriter(socket.getOutputStream());
+			this.writer = new PrintWriter(socket.getOutputStream(), true);
 			// socket受け取り
-			input = new InputStreamReader(socket.getInputStream());
+			this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
 			System.out.println("Error CreateBuffer");
 		}
@@ -58,28 +57,25 @@ public class SocketAPI {
 				socket = new Socket(ip, port);
 				buffer();
 			} catch (IOException e) {
-				System.out.print(".");
+				// System.out.print(".");
 			}
 		}
 
 		System.out.println("connected");
 	}
 
-	public void pub_msgs(String s) {
-		try {
-			// 送信
-			(new BufferedWriter(output)).write(s);
-			System.out.println("send");
-		} catch (IOException e) {
-			System.out.println("Error Publisher");
-		}
+	public void publishMsgs(String s) {
+		// 送信
+		// (new BufferedWriter(this.output)).write(s);
+		writer.println(s);
+		System.out.println("send");
 	}
 
-	public String get_msgs() {
+	public String subscribeMsgs() {
 
 		try {
 			// 受信
-			return (new BufferedReader(input)).readLine();
+			return this.reader.readLine();
 		} catch (IOException e) {
 			System.out.println("Error Subsclibe");
 		}
@@ -90,15 +86,17 @@ public class SocketAPI {
 	public void publishFile(String Path) {
 
 		byte[] buffer = new byte[51200]; // ファイル送信時のバッファ
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
 
 		try {
-			@SuppressWarnings("resource")
-			InputStream inputStream = new FileInputStream(Path);
-			OutputStream outputStream = socket.getOutputStream();
+			inputStream = new FileInputStream(Path);
+			outputStream = socket.getOutputStream();
 
 			// ファイルをストリームで送信
 			int fileLength;
 			while ((fileLength = inputStream.read(buffer)) > 0) {
+				System.out.println(fileLength);
 				outputStream.write(buffer, 0, fileLength);
 			}
 
@@ -112,7 +110,7 @@ public class SocketAPI {
 
 	}
 
-	public InputStream subscribeFileData() {
+	public InputStream subscribeFile() {
 
 		try {
 
@@ -127,6 +125,7 @@ public class SocketAPI {
 		}
 
 		return null;
+
 	}
 
 }
