@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="1" failures="0" hostname="migly-ThinkPad-X230" name="rescuecore2.config.ConfigTest" skipped="0" tests="1" time="0.0" timestamp="2018-10-12T11:09:47">
+<testsuite errors="1" failures="0" hostname="migly-ThinkPad-X230" name="rescuecore2.config.ConfigTest" skipped="0" tests="1" time="0.0" timestamp="2018-10-24T08:55:15">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
-    <property name="checkstyle.failure" value="Got 1152 errors and 0 warnings." />
+    <property name="checkstyle.failure" value="Got 1133 errors and 0 warnings." />
     <property name="lib.dir" value="/home/migly/git/rcrs-server/lib" />
     <property name="sun.java.launcher" value="SUN_STANDARD" />
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
@@ -21,7 +21,7 @@
     <property name="net.sourceforge.cobertura.datafile" value="/home/migly/git/rcrs-server/build/cobertura-results/cobertura.ser" />
     <property name="ant.home" value="/usr/share/ant" />
     <property name="jar.dir" value="/home/migly/git/rcrs-server/jars" />
-    <property name="java.runtime.version" value="1.8.0_181-b13" />
+    <property name="java.runtime.version" value="1.8.0_191-b12" />
     <property name="tests.basedir" value="/home/migly/git/rcrs-server/modules/rescuecore2/test" />
     <property name="ant.file.type.Robocup rescue simulation software" value="file" />
     <property name="clear.compiled" value="true" />
@@ -38,7 +38,7 @@
     <property name="osm2gml.osmmap" value="../maps/osm/southampton.osm" />
     <property name="ant.project.default-target" value="complete-build" />
     <property name="ant.project.name" value="Robocup rescue simulation software" />
-    <property name="java.version" value="1.8.0_181" />
+    <property name="java.version" value="1.8.0_191" />
     <property name="version" value="1.2" />
     <property name="user.timezone" value="" />
     <property name="sun.arch.data.model" value="64" />
@@ -59,13 +59,13 @@
     <property name="java.vm.info" value="mixed mode" />
     <property name="checkstyle.output.dir" value="/home/migly/git/rcrs-server/build/checkstyle-results" />
     <property name="ant.file" value="/home/migly/git/rcrs-server/build.xml" />
-    <property name="os.version" value="4.4.0-137-generic" />
+    <property name="os.version" value="4.4.0-138-generic" />
     <property name="modules.rescuecore2.depend" value="" />
     <property name="modules.standard.depend" value="rescuecore2,kernel" />
     <property name="modules.dir" value="/home/migly/git/rcrs-server/modules" />
     <property name="ignition.compiled" value="true" />
     <property name="path.separator" value=":" />
-    <property name="java.vm.version" value="25.181-b13" />
+    <property name="java.vm.version" value="25.191-b12" />
     <property name="ant.file.Robocup rescue simulation software" value="/home/migly/git/rcrs-server/build.xml" />
     <property name="ant.library.dir" value="/usr/share/ant/lib" />
     <property name="javac.flags" value="-Xlint:unchecked,deprecation" />
@@ -76,6 +76,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
     <property name="modules.traffic3.depend" value="rescuecore2,standard" />
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit" />
+    <property name="edu.umd.cs.findbugs.FindBugs2.executeReturnCode.6111fa7c-7785-4d90-92be-78396bf8640a" value="1" />
     <property name="standard.compiled" value="true" />
     <property name="kernel.compiled" value="true" />
     <property name="user.home" value="/home/migly" />
@@ -88,8 +89,7 @@
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="java.class.path" value="/home/migly/git/rcrs-server/build/jars-instrumented/clear.jar:/home/migly/git/rcrs-server/build/jars-instrumented/collapse.jar:/home/migly/git/rcrs-server/build/jars-instrumented/gis2.jar:/home/migly/git/rcrs-server/build/jars-instrumented/handy.jar:/home/migly/git/rcrs-server/build/jars-instrumented/human.jar:/home/migly/git/rcrs-server/build/jars-instrumented/ignition.jar:/home/migly/git/rcrs-server/build/jars-instrumented/kernel.jar:/home/migly/git/rcrs-server/build/jars-instrumented/maps.jar:/home/migly/git/rcrs-server/build/jars-instrumented/misc.jar:/home/migly/git/rcrs-server/build/jars-instrumented/rescuecore2.jar:/home/migly/git/rcrs-server/build/jars-instrumented/resq-fire.jar:/home/migly/git/rcrs-server/build/jars-instrumented/sample.jar:/home/migly/git/rcrs-server/build/jars-instrumented/standard.jar:/home/migly/git/rcrs-server/build/jars-instrumented/traffic3.jar:/home/migly/git/rcrs-server/build-tools/cobertura-1.9.2/cobertura.jar:/home/migly/git/rcrs-server/build-tools/cobertura-1.9.2/lib/asm-3.0.jar:/home/migly/git/rcrs-server/build-tools/cobertura-1.9.2/lib/asm-tree-3.0.jar:/home/migly/git/rcrs-server/build-tools/cobertura-1.9.2/lib/jakarta-oro-2.0.8.jar:/home/migly/git/rcrs-server/build-tools/cobertura-1.9.2/lib/log4j-1.2.15.jar:/home/migly/git/rcrs-server/supplement:/home/migly/git/rcrs-server/jars/clear.jar:/home/migly/git/rcrs-server/jars/collapse.jar:/home/migly/git/rcrs-server/jars/gis2.jar:/home/migly/git/rcrs-server/jars/handy.jar:/home/migly/git/rcrs-server/jars/human.jar:/home/migly/git/rcrs-server/jars/ignition.jar:/home/migly/git/rcrs-server/jars/kernel.jar:/home/migly/git/rcrs-server/jars/maps.jar:/home/migly/git/rcrs-server/jars/misc.jar:/home/migly/git/rcrs-server/jars/rescuecore2.jar:/home/migly/git/rcrs-server/jars/resq-fire.jar:/home/migly/git/rcrs-server/jars/sample.jar:/home/migly/git/rcrs-server/jars/standard.jar:/home/migly/git/rcrs-server/jars/traffic3.jar:/home/migly/git/rcrs-server/lib/commons-logging-1.1.1.jar:/home/migly/git/rcrs-server/lib/dom4j.jar:/home/migly/git/rcrs-server/lib/jaxen-1.1.1.jar:/home/migly/git/rcrs-server/lib/jcommon-1.0.16.jar:/home/migly/git/rcrs-server/lib/jfreechart-1.0.13.jar:/home/migly/git/rcrs-server/lib/jscience-4.3.jar:/home/migly/git/rcrs-server/lib/jsi-1.0b2p1.jar:/home/migly/git/rcrs-server/lib/jts-1.11.jar:/home/migly/git/rcrs-server/lib/junit-4.5.jar:/home/migly/git/rcrs-server/lib/log4j-1.2.15.jar:/home/migly/git/rcrs-server/lib/rescuecore.jar:/home/migly/git/rcrs-server/lib/resq-fire.jar:/home/migly/git/rcrs-server/lib/trove-0.1.8.jar:/home/migly/git/rcrs-server/lib/uncommons-maths-1.2.jar:/home/migly/git/rcrs-server/lib/xml-0.0.6.jar:/home/migly/git/rcrs-server/modules/rescuecore2/test:/usr/share/java/ant-launcher-1.9.6.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar" />
     <property name="ant.version" value="Apache Ant(TM) version 1.9.6 compiled on July 20 2018" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner rescuecore2.config.ConfigTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/migly/git/rcrs-server/build/junit-results/TEST-rescuecore2.config.ConfigTest.xml crashfile=/home/migly/git/rcrs-server/junitvmwatcher5389110190483793434.properties propsfile=/home/migly/git/rcrs-server/junit7593558583687633577.properties" />
-    <property name="edu.umd.cs.findbugs.FindBugs2.executeReturnCode.0164dc79-dcb7-4fe8-bca5-dc2ea0129746" value="1" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner rescuecore2.config.ConfigTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/migly/git/rcrs-server/build/junit-results/TEST-rescuecore2.config.ConfigTest.xml crashfile=/home/migly/git/rcrs-server/junitvmwatcher4082511883412630857.properties propsfile=/home/migly/git/rcrs-server/junit4738946747422850927.properties" />
     <property name="deps" value="rescuecore2,standard,maps,kernel" />
     <property name="modules.ignition.depend" value="rescuecore2,standard" />
     <property name="modules" value="rescuecore2,kernel,standard,sample,handy,human,collapse,misc,resq-fire,ignition,maps,clear,traffic3,gis2" />
@@ -137,7 +137,7 @@
     <property name="cobertura.instrument.dir" value="/home/migly/git/rcrs-server/build/jars-instrumented" />
   </properties>
   <error message="rescuecore2.config.ConfigTest" type="java.lang.ClassNotFoundException">java.lang.ClassNotFoundException: rescuecore2.config.ConfigTest
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:382)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
 	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:349)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)

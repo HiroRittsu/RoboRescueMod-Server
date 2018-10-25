@@ -387,8 +387,6 @@ public class TrafficSimulatorGUI extends JPanel {
 				int ellipseWidth = x2 - x1;
 				int ellipseHeight = y1 - y2;
 
-				System.out.println("allAgent?" + x + " " + y + "###################################");
-
 				/*
 				 * Logger.debug("Agent " + agent); Logger.debug("Position: " + agentX + ", " +
 				 * agentY + " -> " + x + ", " + y); Logger.debug("Ellipse bounds: " + ellipseX1
