@@ -58,10 +58,8 @@ public class TrafficSimulatorGUI extends JPanel {
 	// 128);
 
 	private static final Stroke PASSABLE_EDGE_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-	private static final Stroke IMPASSABLE_EDGE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_BEVEL);
-	private static final Stroke SELECTED_AREA_OUTLINE_STROKE = new BasicStroke(3, BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_BEVEL);
+	private static final Stroke IMPASSABLE_EDGE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+	private static final Stroke SELECTED_AREA_OUTLINE_STROKE = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 	private static final Stroke BLOCKADE_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
 	private static final int PATH_NODE_SIZE = 5;
@@ -137,8 +135,7 @@ public class TrafficSimulatorGUI extends JPanel {
 
 		add(view, BorderLayout.CENTER);
 		add(buttons, BorderLayout.SOUTH);
-		add(new JScrollPane(verboseBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.EAST);
+		add(new JScrollPane(verboseBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.EAST);
 
 		timer = new Timer(TICK_TIME_MS, new ActionListener() {
 			@Override
@@ -308,11 +305,8 @@ public class TrafficSimulatorGUI extends JPanel {
 						for (int j = 0; j < graph.length; j++) {
 							if (graph[i][j] > 10000)
 								continue;
-							Line2D line = new Line2D(
-									TrafficSimulator.getMidPoint(oLines.get(i).getOrigin(),
-											oLines.get(i).getEndPoint()),
-									TrafficSimulator.getMidPoint(oLines.get(j).getOrigin(),
-											oLines.get(j).getEndPoint()));
+							Line2D line = new Line2D(TrafficSimulator.getMidPoint(oLines.get(i).getOrigin(), oLines.get(i).getEndPoint()),
+									TrafficSimulator.getMidPoint(oLines.get(j).getOrigin(), oLines.get(j).getEndPoint()));
 							paintLine(line, g);
 						}
 					}
@@ -331,8 +325,8 @@ public class TrafficSimulatorGUI extends JPanel {
 		}
 
 		private void paintLine(Line2D line, Graphics2D g) {
-			g.drawLine(transform.xToScreen(line.getOrigin().getX()), transform.yToScreen(line.getOrigin().getY()),
-					transform.xToScreen(line.getEndPoint().getX()), transform.yToScreen(line.getEndPoint().getY()));
+			g.drawLine(transform.xToScreen(line.getOrigin().getX()), transform.yToScreen(line.getOrigin().getY()), transform.xToScreen(line.getEndPoint().getX()),
+					transform.yToScreen(line.getEndPoint().getY()));
 		}
 
 		private void paintEdges(List<Edge> edges, Graphics2D g) {
@@ -388,14 +382,16 @@ public class TrafficSimulatorGUI extends JPanel {
 				int ellipseHeight = y1 - y2;
 
 				/*
-				 * Logger.debug("Agent " + agent); Logger.debug("Position: " + agentX + ", " +
-				 * agentY + " -> " + x + ", " + y); Logger.debug("Ellipse bounds: " + ellipseX1
-				 * + ", " + ellipseY1 + " -> " + ellipseX2 + ", " + ellipseY2);
-				 * Logger.debug("  " + x1 + ", " + y1 + " -> " + x2 + ", " + y2);
-				 * Logger.debug("  Width: " + ellipseWidth + ", height: " + ellipseHeight);
-				 * Logger.debug("Velocity: " + velocityX + ", " + velocityY + " -> " + vx + ", "
-				 * + vy); Logger.debug("Force: " + forceX + ", " + forceY + " -> " + fx + ", " +
-				 * fy);
+				 * Logger.debug("Agent " + agent); Logger.debug("Position: " +
+				 * agentX + ", " + agentY + " -> " + x + ", " + y);
+				 * Logger.debug("Ellipse bounds: " + ellipseX1 + ", " +
+				 * ellipseY1 + " -> " + ellipseX2 + ", " + ellipseY2);
+				 * Logger.debug("  " + x1 + ", " + y1 + " -> " + x2 + ", " +
+				 * y2); Logger.debug("  Width: " + ellipseWidth + ", height: " +
+				 * ellipseHeight); Logger.debug("Velocity: " + velocityX + ", "
+				 * + velocityY + " -> " + vx + ", " + vy);
+				 * Logger.debug("Force: " + forceX + ", " + forceY + " -> " + fx
+				 * + ", " + fy);
 				 */
 
 				g.setColor(agent == selectedAgent ? Color.orange : Color.red);
@@ -419,11 +415,9 @@ public class TrafficSimulatorGUI extends JPanel {
 							List<Point2D> waypoints = new ArrayList<Point2D>(next.getWaypoints());
 							Collections.reverse(waypoints);
 							for (Point2D p : waypoints) {
-								System.out.println(p.getX() + " " + p.getY());
 								int nodeX = transform.xToScreen(p.getX());
 								int nodeY = transform.yToScreen(p.getY());
-								g.fillOval(nodeX - (PATH_NODE_SIZE / 2), nodeY - (PATH_NODE_SIZE / 2), PATH_NODE_SIZE,
-										PATH_NODE_SIZE);
+								g.fillOval(nodeX - (PATH_NODE_SIZE / 2), nodeY - (PATH_NODE_SIZE / 2), PATH_NODE_SIZE, PATH_NODE_SIZE);
 								g.drawLine(lastX, lastY, nodeX, nodeY);
 								lastX = nodeX;
 								lastY = nodeY;
@@ -433,16 +427,14 @@ public class TrafficSimulatorGUI extends JPanel {
 							g.setColor(Color.YELLOW);
 							int nodeX = transform.xToScreen(current.getX());
 							int nodeY = transform.yToScreen(current.getY());
-							g.fillOval(nodeX - (PATH_SPECIAL_NODE_SIZE / 2), nodeY - (PATH_SPECIAL_NODE_SIZE / 2),
-									PATH_SPECIAL_NODE_SIZE, PATH_SPECIAL_NODE_SIZE);
+							g.fillOval(nodeX - (PATH_SPECIAL_NODE_SIZE / 2), nodeY - (PATH_SPECIAL_NODE_SIZE / 2), PATH_SPECIAL_NODE_SIZE, PATH_SPECIAL_NODE_SIZE);
 							g.drawLine(x, y, nodeX, nodeY);
 						}
 						if (goal != null) {
 							g.setColor(Color.WHITE);
 							int nodeX = transform.xToScreen(goal.getX());
 							int nodeY = transform.yToScreen(goal.getY());
-							g.fillOval(nodeX - (PATH_SPECIAL_NODE_SIZE / 2), nodeY - (PATH_SPECIAL_NODE_SIZE / 2),
-									PATH_SPECIAL_NODE_SIZE, PATH_SPECIAL_NODE_SIZE);
+							g.fillOval(nodeX - (PATH_SPECIAL_NODE_SIZE / 2), nodeY - (PATH_SPECIAL_NODE_SIZE / 2), PATH_SPECIAL_NODE_SIZE, PATH_SPECIAL_NODE_SIZE);
 						}
 					}
 				}
