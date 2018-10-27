@@ -33,7 +33,6 @@ public class PositionHistoryLayer extends StandardEntityViewLayer<Human> {
 
 	@Override
 	public Shape render(Human h, Graphics2D g, ScreenTransform t) {
-		System.out.println(h.getX() + " " + h.getY());
 		if (!h.isPositionHistoryDefined()) {
 			return null;
 		}

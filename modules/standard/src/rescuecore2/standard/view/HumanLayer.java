@@ -99,6 +99,7 @@ public class HumanLayer extends StandardEntityViewLayer<Human> {
 		}
 		int x = t.xToScreen(location.first());
 		int y = t.yToScreen(location.second());
+
 		Shape shape;
 		Icon icon = useIcons ? getIcon(h) : null;
 		if (icon == null) {
