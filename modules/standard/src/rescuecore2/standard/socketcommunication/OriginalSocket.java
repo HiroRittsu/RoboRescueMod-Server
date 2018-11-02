@@ -1,4 +1,4 @@
-package recuecore2.standard.socketcommunication;
+package rescuecore2.standard.socketcommunication;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
