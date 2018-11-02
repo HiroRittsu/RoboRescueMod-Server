@@ -14,25 +14,24 @@ import rescuecore2.standard.messages.AKSpeak;
 import rescuecore2.standard.messages.AKSay;
 
 /**
-   A CommandFilter that discards commands from buried agents.
+ * A CommandFilter that discards commands from buried agents.
  */
 public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
-    @Override
-    protected boolean allowed(Command c, KernelState state) {
-        EntityID id = c.getAgentID();
-        Entity e = state.getWorldModel().getEntity(id);
-        if ((c instanceof AKSubscribe)
-            || (c instanceof AKSpeak)
-            || (c instanceof AKSay)) {
-            return true;
-        }
-        if (e instanceof Human) {
-            Human h = (Human)e;
-            if (h.isBuriednessDefined() && h.getBuriedness() > 0) {
-                Logger.info("Ignoring command " + c + ": Agent " + h + " is buried");
-                return false;
-            }
-        }
-        return true;
-    }
+	@Override
+	protected boolean allowed(Command c, KernelState state) {
+		System.out.println(c.getTime());
+		EntityID id = c.getAgentID();
+		Entity e = state.getWorldModel().getEntity(id);
+		if ((c instanceof AKSubscribe) || (c instanceof AKSpeak) || (c instanceof AKSay)) {
+			return true;
+		}
+		if (e instanceof Human) {
+			Human h = (Human) e;
+			if (h.isBuriednessDefined() && h.getBuriedness() > 0) {
+				Logger.info("Ignoring command " + c + ": Agent " + h + " is buried");
+				return false;
+			}
+		}
+		return true;
+	}
 }
