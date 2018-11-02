@@ -17,17 +17,8 @@ public class KernelNode {
 		return 0;
 	}
 
-	private void delaitinon(int milli) {
-		try {
-			Thread.sleep(milli);
-		} catch (InterruptedException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-	}
-
-	public void addPosition(String agent_name, int x, int y) {
-		agent_data.add(agent_name + "," + String.valueOf(x) + "," + String.valueOf(y));
+	public void addAgentData(String agent_name, int id, int x, int y) {
+		agent_data.add(agent_name + "," + String.valueOf(id) + "," + String.valueOf(x) + "," + String.valueOf(y));
 	}
 
 	public void socketThread() {
@@ -40,7 +31,7 @@ public class KernelNode {
 					if (agent_data != null && !agent_data.isEmpty()) {
 						originalSocket.publishMsgs(agent_data.remove(0));
 					}
-					delaitinon(1);
+					originalSocket.delaitinon(1);
 				}
 			}
 		}).start();

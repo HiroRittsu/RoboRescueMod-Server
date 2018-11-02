@@ -29,24 +29,24 @@ public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
 	@Override
 	protected boolean allowed(Command c, KernelState state) {
 
-		System.out.println("debug1");
-
 		EntityID id = c.getAgentID();
 		Entity e = state.getWorldModel().getEntity(id);
 
 		if ((c instanceof AKSubscribe) || (c instanceof AKSpeak) || (c instanceof AKSay)) {
 			return true;
 		}
+		
 		if (e instanceof Human) {
 			Human h = (Human) e;
 
-			kernelNode.addPosition(h.getURN(), h.getX(), h.getY());
+			kernelNode.addAgentData(h.getURN().split(":")[3], h.getID().getValue(), h.getX(), h.getY());
 
 			if (h.isBuriednessDefined() && h.getBuriedness() > 0) {
 				Logger.info("Ignoring command " + c + ": Agent " + h + " is buried");
 				return false;
 			}
 		}
+		
 		return true;
 	}
 }

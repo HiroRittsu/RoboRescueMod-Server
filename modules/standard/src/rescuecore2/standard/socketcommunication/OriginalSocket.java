@@ -30,6 +30,15 @@ public class OriginalSocket {
 		}
 	}
 
+	public void delaitinon(int milli) {
+		try {
+			Thread.sleep(milli);
+		} catch (InterruptedException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+	}
+
 	public void joinServer(int port, String ip) {
 
 		try {
