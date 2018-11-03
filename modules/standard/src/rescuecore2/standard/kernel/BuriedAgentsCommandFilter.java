@@ -31,7 +31,7 @@ public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
 
 		EntityID id = c.getAgentID();
 		Entity e = state.getWorldModel().getEntity(id);
-
+		
 		if ((c instanceof AKSubscribe) || (c instanceof AKSpeak) || (c instanceof AKSay)) {
 			return true;
 		}

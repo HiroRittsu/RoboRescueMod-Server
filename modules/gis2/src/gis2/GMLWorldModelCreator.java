@@ -55,7 +55,7 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 	private static final String BUILDING_CODE_PLACEMENT_TYPE = "gis.map.building-code-placement.random";
 	private static final String RANDOM_BUILDING_CODE_RATE = "gis.map.building-code-placement.random.code-rate.";
 	private static final String MAX_BUILDING_CODE = "gis.map.max-building-code";
-	
+
 	private static final double SQ_MM_TO_SQ_M = 0.000001;
 
 	private GisScenario scenario;
@@ -66,22 +66,20 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 	// private ShapeDebugFrame debug;
 
 	private int nextID;
+
 	@Override
 	public String toString() {
 		return "GML world model creator";
 	}
 
 	@Override
-	public WorldModel<? extends Entity> buildWorldModel(Config config)
-			throws KernelException {
+	public WorldModel<? extends Entity> buildWorldModel(Config config) throws KernelException {
 		try {
 			StandardWorldModel result = new StandardWorldModel();
 			File dir = new File(config.getValue(MAP_DIRECTORY_KEY));
-			File mapFile = new File(dir, config.getValue(MAP_FILE_KEY,
-					DEFAULT_MAP_FILE));
-			File scenarioFile = new File(dir, config.getValue(
-					SCENARIO_FILE_KEY, DEFAULT_SCENARIO_FILE));
-			readMapData(mapFile, result,config);
+			File mapFile = new File(dir, config.getValue(MAP_FILE_KEY, DEFAULT_MAP_FILE));
+			File scenarioFile = new File(dir, config.getValue(SCENARIO_FILE_KEY, DEFAULT_SCENARIO_FILE));
+			readMapData(mapFile, result, config);
 			readScenarioAndApply(scenarioFile, result, config);
 			for (Entity e : result) {
 				nextID = Math.max(nextID, e.getID().getValue());
@@ -103,44 +101,40 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 		return new EntityID(nextID++);
 	}
 
-	private void readMapData(File mapFile, StandardWorldModel result, Config config)
-			throws MapException {
-		
+	private void readMapData(File mapFile, StandardWorldModel result, Config config) throws MapException {
 
-		int maxFloor = config.getIntValue(MAX_FLOOR,3);
-		boolean randomfloorPlacement = config.getBooleanValue(FLOOR_PLACEMENT_TYPE,false);
+		int maxFloor = config.getIntValue(MAX_FLOOR, 3);
+		boolean randomfloorPlacement = config.getBooleanValue(FLOOR_PLACEMENT_TYPE, false);
 		int[] floorRates = null;
 		int[] floorRatesCumulative = null;
-		if(randomfloorPlacement) {
-			floorRates = new int[maxFloor+1];
-			floorRatesCumulative = new int[maxFloor+1];
-			for(int i=1;i<=maxFloor;i++){
-				floorRates[i]=config.getIntValue(RANDOM_FLOOR_RATE+i);
-				floorRatesCumulative[i]=floorRatesCumulative[i-1]+floorRates[i];
+		if (randomfloorPlacement) {
+			floorRates = new int[maxFloor + 1];
+			floorRatesCumulative = new int[maxFloor + 1];
+			for (int i = 1; i <= maxFloor; i++) {
+				floorRates[i] = config.getIntValue(RANDOM_FLOOR_RATE + i);
+				floorRatesCumulative[i] = floorRatesCumulative[i - 1] + floorRates[i];
 			}
 		}
 
-		
 		int maxBuildingCode = config.getIntValue(MAX_BUILDING_CODE, 2);
 		boolean randomBuildingCodePlacement = config.getBooleanValue(BUILDING_CODE_PLACEMENT_TYPE, false);
 		int[] buildingCodeRates = null;
-		int[] buildingCodesCumulative =  null;
-		if(randomBuildingCodePlacement) {
+		int[] buildingCodesCumulative = null;
+		if (randomBuildingCodePlacement) {
 			buildingCodeRates = new int[maxBuildingCode + 1];
 			buildingCodesCumulative = new int[maxBuildingCode + 1];
-			for(int i = 0; i <= maxBuildingCode; i++){
+			for (int i = 0; i <= maxBuildingCode; i++) {
 				buildingCodeRates[i] = config.getIntValue(RANDOM_BUILDING_CODE_RATE + i);
 				buildingCodesCumulative[i] = (i > 0 ? buildingCodesCumulative[i - 1] : 0) + buildingCodeRates[i];
 			}
 		}
 
-		
 		GMLMap map = (GMLMap) MapReader.readMap(mapFile);
 		CoordinateConversion conversion = getCoordinateConversion(map);
 		Logger.debug("Creating entities");
 		Logger.debug(map.getBuildings().size() + " buildings");
 		Logger.debug(map.getRoads().size() + " roads");
-		
+
 		for (GMLBuilding next : map.getBuildings()) {
 			// Create a new Building entity
 			EntityID id = new EntityID(next.getID());
@@ -155,27 +149,27 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 
 			// Building properties
 			int floors = Math.min(maxFloor, next.getFloors());
-			if(randomfloorPlacement){
-				int rnd=config.getRandom().nextInt(floorRatesCumulative[maxFloor])+1;
-				for(int i=1;i<=maxFloor;i++){
-					if(rnd<=floorRatesCumulative[i]){
-						floors=i;
+			if (randomfloorPlacement) {
+				int rnd = config.getRandom().nextInt(floorRatesCumulative[maxFloor]) + 1;
+				for (int i = 1; i <= maxFloor; i++) {
+					if (rnd <= floorRatesCumulative[i]) {
+						floors = i;
 						break;
 					}
 				}
 			}
-			
+
 			int code = Math.min(maxBuildingCode, next.getCode());
-			if(randomBuildingCodePlacement){
+			if (randomBuildingCodePlacement) {
 				int rnd = config.getRandom().nextInt(buildingCodesCumulative[maxBuildingCode]) + 1;
-				for(int i = 0; i <= maxBuildingCode; i++){
-					if(rnd <= buildingCodesCumulative[i]){
+				for (int i = 0; i <= maxBuildingCode; i++) {
+					if (rnd <= buildingCodesCumulative[i]) {
 						code = i;
 						break;
 					}
 				}
 			}
-			
+
 			b.setFloors(floors);
 			b.setFieryness(0);
 			b.setBrokenness(0);
@@ -211,9 +205,8 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 		}
 	}
 
-	private void readScenarioAndApply(File scenarioFile,
-			StandardWorldModel result, Config config) throws DocumentException,
-			ScenarioException {
+	private void readScenarioAndApply(File scenarioFile, StandardWorldModel result, Config config)
+			throws DocumentException, ScenarioException {
 		if (scenarioFile.exists()) {
 			readScenario(scenarioFile);
 			Logger.debug("Applying scenario");
@@ -221,8 +214,7 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 		}
 	}
 
-	private void readScenario(File scenarioFile) throws DocumentException,
-			ScenarioException {
+	private void readScenario(File scenarioFile) throws DocumentException, ScenarioException {
 		if (scenarioFile.exists()) {
 			SAXReader reader = new SAXReader();
 			Logger.debug("Reading scenario");
@@ -238,8 +230,7 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 			GMLCoordinates start = edge.getStartCoordinates();
 			GMLCoordinates end = edge.getEndCoordinates();
 			Integer neighbourID = s.getNeighbour(edge);
-			EntityID id = neighbourID == null ? null
-					: new EntityID(neighbourID);
+			EntityID id = neighbourID == null ? null : new EntityID(neighbourID);
 			// Logger.debug("Edge: " + start + " -> " + end);
 			double sx = conversion.convertX(start.getX());
 			double sy = conversion.convertY(start.getY());
@@ -252,12 +243,10 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 		return result;
 	}
 
-	private List<Point2D> convertShapeToPoints(GMLShape shape,
-			CoordinateConversion conversion) {
+	private List<Point2D> convertShapeToPoints(GMLShape shape, CoordinateConversion conversion) {
 		List<Point2D> points = new ArrayList<Point2D>();
 		for (GMLCoordinates next : shape.getCoordinates()) {
-			points.add(new Point2D(conversion.convertX(next.getX()), conversion
-					.convertY(next.getY())));
+			points.add(new Point2D(conversion.convertX(next.getX()), conversion.convertY(next.getY())));
 		}
 		return points;
 	}
@@ -266,12 +255,11 @@ public class GMLWorldModelCreator implements WorldModelCreator {
 		return new ScaleConversion(map.getMinX(), map.getMinY(), 1000, 1000);
 	}
 
-	public GisScenario getScenario(Config config) throws DocumentException{
+	public GisScenario getScenario(Config config) throws DocumentException {
 
 		if (scenario == null) {
 			File dir = new File(config.getValue(MAP_DIRECTORY_KEY));
-			File scenarioFile = new File(dir, config.getValue(
-					SCENARIO_FILE_KEY, DEFAULT_SCENARIO_FILE));
+			File scenarioFile = new File(dir, config.getValue(SCENARIO_FILE_KEY, DEFAULT_SCENARIO_FILE));
 			try {
 				readScenario(scenarioFile);
 			} catch (ScenarioException e) {
