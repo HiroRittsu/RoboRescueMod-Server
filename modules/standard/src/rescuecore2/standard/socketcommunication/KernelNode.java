@@ -17,8 +17,17 @@ public class KernelNode {
 		return 0;
 	}
 
-	public void addAgentData(String agent_name, int id, int x, int y) {
-		agent_data.add(agent_name + "," + String.valueOf(id) + "," + String.valueOf(x) + "," + String.valueOf(y));
+	public void addAgentData(String agent_name, int id, int[] histly) {
+
+		if (histly != null) {
+			String input = null;
+			input = agent_name + "," + String.valueOf(id) + ",";
+			for (int point : histly) {
+				input = input + point + ",";
+			}
+
+			agent_data.add(input);
+		}
 	}
 
 	public void socketThread() {
