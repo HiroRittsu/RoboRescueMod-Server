@@ -39,7 +39,8 @@ public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
 		if (e instanceof Human) {
 			Human h = (Human) e;
 
-			kernelNode.addAgentData(h.getURN().split(":")[3], h.getID().getValue(), h.getPositionHistory());
+			kernelNode.addAgentData(c.getTime(), h.getURN().split(":")[3], h.getID().getValue(),
+					h.getPositionHistory());
 
 			if (h.isBuriednessDefined() && h.getBuriedness() > 0) {
 				Logger.info("Ignoring command " + c + ": Agent " + h + " is buried");

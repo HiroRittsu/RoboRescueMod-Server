@@ -13,15 +13,11 @@ public class KernelNode {
 		agent_data = new ArrayList<>();
 	}
 
-	private int getTime() {
-		return 0;
-	}
-
-	public void addAgentData(String agent_name, int id, int[] histly) {
+	public void addAgentData(int time, String agent_name, int id, int[] histly) {
 
 		if (histly != null) {
 			String input = null;
-			input = agent_name + "," + String.valueOf(id) + ",";
+			input = time + "," + agent_name + "," + String.valueOf(id) + ",";
 			for (int point : histly) {
 				input = input + point + ",";
 			}
