@@ -17,9 +17,9 @@ public class KernelNode {
 
 		if (histly != null) {
 			String input = null;
-			input = time + "," + agent_name + "," + String.valueOf(id) + ",";
+			input = String.valueOf(time) + "," + agent_name + "," + String.valueOf(id);
 			for (int point : histly) {
-				input = input + point + ",";
+				input = input + "," + point;
 			}
 
 			agent_data.add(input);

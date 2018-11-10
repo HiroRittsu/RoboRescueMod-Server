@@ -29,6 +29,8 @@ public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
 	@Override
 	protected boolean allowed(Command c, KernelState state) {
 
+		System.out.println(c.getURN());
+
 		EntityID id = c.getAgentID();
 		Entity e = state.getWorldModel().getEntity(id);
 
@@ -37,6 +39,9 @@ public class BuriedAgentsCommandFilter extends AbstractCommandFilter {
 		}
 
 		if (e instanceof Human) {
+
+			System.out.println(c.getTime());
+
 			Human h = (Human) e;
 
 			kernelNode.addAgentData(c.getTime(), h.getURN().split(":")[3], h.getID().getValue(),
