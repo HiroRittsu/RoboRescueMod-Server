@@ -325,6 +325,11 @@ public class Kernel {
     */
     public void timestep() throws InterruptedException, KernelException, LogException {
         try {
+        	//while(true) {
+        	//	if (time == 10) {
+			//		break;
+			//	}
+        	//}
             Logger.pushLogContext(KERNEL_LOG_CONTEXT);
             synchronized (this) {
                 if (time == 0) {
