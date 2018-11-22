@@ -9,6 +9,7 @@ import rescuecore2.worldmodel.Entity;
 import rescuecore2.worldmodel.EntityID;
 import roborescuemod.config.ConfigReader;
 import roborescuemod.config.GmlReader;
+import roborescuemod.kernel.SocketServer;
 import rescuecore2.log.Logger;
 
 import rescuecore2.standard.messages.AKClearArea;
@@ -36,11 +37,14 @@ import java.util.Iterator;
 public class SingleCommandFilter implements CommandFilter {
 
 	public ConfigReader configReader;
+	public SocketServer socketServer;
 	public GmlReader gmlReader;
 	public Document document;
 
 	@Override
 	public void initialise(Config config) {
+
+		socketServer = new SocketServer(12345, "localhost");
 
 		// configを送信
 		configReader = new ConfigReader();
@@ -48,10 +52,12 @@ public class SingleCommandFilter implements CommandFilter {
 
 		document = gmlReader.openGML(configReader.getGmlPath(config));
 
-		System.out.println(configReader.readNode(document));
-		System.out.println(configReader.readEdge(document));
-		System.out.println(configReader.readRoads(document));
-		System.out.println(configReader.readBuildings(document));
+		socketServer.publishConfig(configReader.readNode(document));
+		socketServer.publishConfig(configReader.readEdge(document));
+		socketServer.publishConfig(configReader.readRoads(document));
+		socketServer.publishConfig(configReader.readBuildings(document));
+
+		socketServer.publishCommand("registry_map");
 
 	}
 
