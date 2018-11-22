@@ -42,10 +42,12 @@ public class SingleCommandFilter implements CommandFilter {
 	@Override
 	public void initialise(Config config) {
 
+		// configを送信
 		configReader = new ConfigReader();
 		gmlReader = new GmlReader();
 
 		document = gmlReader.openGML(configReader.getGmlPath(config));
+		
 	}
 
 	@Override
