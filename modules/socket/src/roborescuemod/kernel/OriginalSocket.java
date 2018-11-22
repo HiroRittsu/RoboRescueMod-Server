@@ -1,12 +1,8 @@
-package roborescue.socket.kernel;
+package roborescuemod.kernel;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -93,50 +89,4 @@ public class OriginalSocket {
 
 		return null;
 	}
-
-	public void publishFile(String Path) {
-
-		byte[] buffer = new byte[51200]; // ファイル送信時のバッファ
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
-
-		try {
-			inputStream = new FileInputStream(Path);
-			outputStream = socket.getOutputStream();
-
-			// ファイルをストリームで送信
-			int fileLength;
-			while ((fileLength = inputStream.read(buffer)) > 0) {
-				System.out.println(fileLength);
-				outputStream.write(buffer, 0, fileLength);
-			}
-
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
-
-	}
-
-	public InputStream subscribeFile() {
-
-		try {
-
-			return socket.getInputStream();
-
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
-
-		return null;
-
-	}
-
 }

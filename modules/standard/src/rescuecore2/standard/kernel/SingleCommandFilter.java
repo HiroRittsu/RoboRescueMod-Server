@@ -7,6 +7,8 @@ import rescuecore2.config.Config;
 import rescuecore2.messages.Command;
 import rescuecore2.worldmodel.Entity;
 import rescuecore2.worldmodel.EntityID;
+import roborescuemod.config.ConfigReader;
+import roborescuemod.config.GmlReader;
 import rescuecore2.log.Logger;
 
 import rescuecore2.standard.messages.AKClearArea;
@@ -20,6 +22,9 @@ import rescuecore2.standard.messages.AKClear;
 import rescuecore2.standard.messages.AKExtinguish;
 
 import java.util.Set;
+
+import org.dom4j.Document;
+
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,13 +34,18 @@ import java.util.Iterator;
  * per agent.
  */
 public class SingleCommandFilter implements CommandFilter {
+
+	public ConfigReader configReader;
+	public GmlReader gmlReader;
+	public Document document;
+
 	@Override
 	public void initialise(Config config) {
-		//init
-		System.out.println("#######??????????########" + config.getValue("gis.map.dir"));
-		
-		
 
+		configReader = new ConfigReader();
+		gmlReader = new GmlReader();
+
+		document = gmlReader.openGML(configReader.getGmlPath(config));
 	}
 
 	@Override

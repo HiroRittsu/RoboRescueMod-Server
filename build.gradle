@@ -34,7 +34,9 @@ sourceSets {
                   'modules/traffic3/src',
                   'oldsims/rescuecore',
                   'oldsims/firesimulator',
-                  'modules/resq-fire/src'
+                  'modules/resq-fire/src',
+                  'modules/resq-fire/src',
+                  'modules/socket/src'
                 ]
     }
   }
@@ -178,12 +180,21 @@ task traffic3Jar (type: Jar) {
   archiveName 'traffic3.jar'
 }
 
+task socketJar (type: Jar) {
+  from(sourceSets.main.output) {
+    include 'roborescuemod/**'
+  }
+  from 'modules/socket'
+  destinationDir file('jars')
+  archiveName 'socket.jar'
+}
+
 /* Performs a complete build of the simulator */
 task completeBuild(type: GradleBuild) {
   tasks = [ 'clean', 'build', 'clearJar', 'collapseJar', 'gis2Jar', 'handyJar',
             'humanJar', 'ignitionJar', 'kernelJar', 'mapsJar', 'miscJar',
             'rescuecore2Jar', 'resqFireJar', 'sampleJar', 'standardJar',
-            'traffic3Jar'
+            'traffic3Jar' , 'socketJar'
           ]
 }
 
