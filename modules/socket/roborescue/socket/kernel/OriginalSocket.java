@@ -1,4 +1,4 @@
-package rescuecore2.standard.socketcommunication;
+package roborescue.socket.kernel;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

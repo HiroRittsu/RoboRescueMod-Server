@@ -1,11 +1,11 @@
-package rescuecore2.standard.socketcommunication;
+package roborescue.socket.kernel;
 
 import java.util.ArrayList;
 
 public class KernelNode {
 
-	public ArrayList<String> agent_data = null;
-	private OriginalSocket originalSocket = null;
+	public ArrayList<String> agent_data;
+	private OriginalSocket originalSocket;
 
 	public KernelNode() {
 		originalSocket = new OriginalSocket();

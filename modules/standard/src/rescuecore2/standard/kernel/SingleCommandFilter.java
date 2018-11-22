@@ -34,6 +34,7 @@ public class SingleCommandFilter implements CommandFilter {
 		//init
 		System.out.println("#######??????????########" + config.getValue("gis.map.dir"));
 		
+		
 
 	}
 
