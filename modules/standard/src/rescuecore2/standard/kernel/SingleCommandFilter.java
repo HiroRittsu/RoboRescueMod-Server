@@ -47,7 +47,12 @@ public class SingleCommandFilter implements CommandFilter {
 		gmlReader = new GmlReader();
 
 		document = gmlReader.openGML(configReader.getGmlPath(config));
-		
+
+		System.out.println(configReader.readNode(document));
+		System.out.println(configReader.readEdge(document));
+		System.out.println(configReader.readRoads(document));
+		System.out.println(configReader.readBuildings(document));
+
 	}
 
 	@Override

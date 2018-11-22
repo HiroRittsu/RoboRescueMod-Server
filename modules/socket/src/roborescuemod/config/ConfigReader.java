@@ -1,7 +1,6 @@
 package roborescuemod.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -20,26 +19,15 @@ public class ConfigReader {
 
 	///////////////////////////////////////////////////////////////
 
-	private static int readID(Element node) {
-
-		String s = node.attributeValue("id");
-
-		try {
-			return Integer.parseInt(s);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return 0;
+	private String readID(Element node) {
+		return node.attributeValue("id");
 	}
 
-	public String readNode(Document doc) {
+	public ArrayList<String> readNode(Document doc) {
 
-		int id;
 		double x, y, z;
-		String value;
-		String msg = "node"; // {entityID, x, y, z}
+		String value, id;
+		ArrayList<String> msgs = new ArrayList<>();
 
 		for (Object next : doc.getRootElement().elements("nodelist")) {
 			Element nodeList = (Element) next;
@@ -52,16 +40,11 @@ public class ConfigReader {
 				z = Double.parseDouble(value.split(",", 0)[1]);
 				// entityID
 				id = readID(node);
-				msg += "," + String.valueOf(id) + "," + String.valueOf(x) + "," + String.valueOf(y) + ","
-						+ String.valueOf(z);
+				// {entityID, x, y, z}
+				msgs.add("node," + id + "," + String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(z));
 			}
 		}
-
-		if (msg.split(",").length <= 1) {
-			msg += ",None";
-		}
-
-		return msg;
+		return msgs;
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -80,27 +63,96 @@ public class ConfigReader {
 				nodes[1] = Integer.parseInt(directedNodeElement.attributeValue("href").replaceAll("#", ""));
 			}
 		}
-
 		return nodes;
 	}
 
-	public String readEdge(Document doc) {
+	public ArrayList<String> readEdge(Document doc) {
 
-		int id;
+		String id;
 		Integer[] node_ids = new Integer[2];
-		String msg = "edge"; // {entityID, firstID, endID}
+		ArrayList<String> msgs = new ArrayList<>();
 
 		for (Object next : doc.getRootElement().elements("edgelist")) {
 			Element edgeList = (Element) next;
 			for (Object next2 : edgeList.elements("Edge")) {
+				// {entityID, firstID, endID}
 				Element edge = (Element) next2;
 				id = readID(edge);
 				node_ids = readEdgeData(edge);
-				msg += "," + String.valueOf(id) + "," + String.valueOf(node_ids[0]) + "," + String.valueOf(node_ids[1]);
+				msgs.add("edge," + id + "," + String.valueOf(node_ids[0]) + "," + String.valueOf(node_ids[1]));
 			}
 		}
+		return msgs;
+	}
 
-		return msg;
+	/////////////////////////////////////////////////////////////////////
+	private String readRoadData(Element road) {
+
+		String data = "";
+
+		for (Object next3 : road.elements("Face")) {
+			Element face = (Element) next3;
+			for (Object next4 : face.elements("directedEdge")) {
+				Element directededge = (Element) next4;
+				data += "," + directededge.attributeValue("href").replaceAll("#", "");
+			}
+		}
+		return data;
+	}
+
+	public ArrayList<String> readRoads(Document doc) {
+
+		String id;
+		ArrayList<String> msgs = new ArrayList<>();
+
+		for (Object next : doc.getRootElement().elements("roadlist")) {
+			Element roadList = (Element) next;
+			for (Object next2 : roadList.elements("road")) {
+				Element road = (Element) next2;
+				id = readID(road);
+				// {entityID, floor, material, edgeID,・・・ }
+				msgs.add("road," + id + readRoadData(road));
+			}
+		}
+		return msgs;
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	private String readBuildingData(Element building) {
+
+		String data = "";
+
+		for (Object next3 : building.elements("Face")) {
+			Element face = (Element) next3;
+
+			// importance = Integer.parseInt(face.attributeValue("importance"));
+			data += "," + face.attributeValue("floors");
+			data += "," + face.attributeValue("buildingcode");
+
+			for (Object next4 : face.elements("directedEdge")) {
+				Element directededge = (Element) next4;
+				data += "," + directededge.attributeValue("href").replaceAll("#", "");
+			}
+		}
+		return data;
+	}
+
+	public ArrayList<String> readBuildings(Document doc) {
+
+		String id;
+		ArrayList<String> msgs = new ArrayList<>();
+
+		for (Object next : doc.getRootElement().elements("buildinglist")) {
+			Element roadList = (Element) next;
+			for (Object next2 : roadList.elements("building")) {
+				Element building = (Element) next2;
+				id = readID(building);
+				// {entityID, floor, material, edgeID,・・・ }
+				msgs.add("building," + id + readBuildingData(building));
+			}
+		}
+		return msgs;
 	}
 
 }
