@@ -40,6 +40,7 @@ public class SingleCommandFilter implements CommandFilter {
 	public SocketServer socketServer;
 	public GmlReader gmlReader;
 	public Document document;
+	public boolean registered = false;
 
 	@Override
 	public void initialise(Config config) {
@@ -59,17 +60,29 @@ public class SingleCommandFilter implements CommandFilter {
 
 		socketServer.publishCommand("registry_map");
 
+		socketServer.waitCommand("ready_map");
+
 	}
 
 	@Override
 	public void filter(Collection<Command> commands, KernelState state) {
 
 		System.out.println(state.getTime());
-
-		for (Entity entity : state.getWorldModel().getAllEntities()) {
-			if (entity instanceof Human) {
-				System.out.println(((Human) entity).getPosition().getValue());
+		if (!registered) {
+			for (Entity entity : state.getWorldModel().getAllEntities()) {
+				if (entity instanceof Human) {
+					Human h = (Human) entity;
+					System.out.println(h.getURN().split(":")[3]);
+					socketServer.publishScenario("scenario," + h.getURN().split(":")[3] + ","
+							+ String.valueOf(h.getID().getValue()) + "," + String.valueOf(h.getPosition().getValue()));
+				}
 			}
+			
+			socketServer.publishCommand("orient_scenario");
+
+			socketServer.waitCommand("ready_scenario");
+
+			registered = true;
 		}
 
 		Set<EntityID> sent = new HashSet<EntityID>();

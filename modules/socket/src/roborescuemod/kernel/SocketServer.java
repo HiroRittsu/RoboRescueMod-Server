@@ -21,14 +21,26 @@ public class SocketServer {
 		}
 	}
 
+	public void publishScenario(String msg) {
+		originalSocket.publishMsgs(msg);
+	}
+
 	public void publishCommand(String command) {
 		switch (command) {
 		case "registry_map":
-			originalSocket.publishMsgs("command,registry_map");
+		case "orient_scenario":
+			originalSocket.publishMsgs("command," + command);
 			break;
 
 		default:
+			System.out.println("command例外送信");
 			break;
+		}
+	}
+
+	public void waitCommand(String command) {
+		while (originalSocket.subscribeMsgs() == "command," + command) {
+			System.out.println("待機");
 		}
 	}
 
