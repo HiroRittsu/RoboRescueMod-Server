@@ -19,7 +19,10 @@ import rescuecore2.standard.messages.AKMove;
 import rescuecore2.standard.messages.AKLoad;
 import rescuecore2.standard.messages.AKUnload;
 import rescuecore2.standard.messages.AKRescue;
+import rescuecore2.standard.entities.Blockade;
+import rescuecore2.standard.entities.Building;
 import rescuecore2.standard.entities.Human;
+import rescuecore2.standard.entities.Road;
 import rescuecore2.standard.messages.AKClear;
 import rescuecore2.standard.messages.AKExtinguish;
 
@@ -74,6 +77,15 @@ public class SingleCommandFilter implements CommandFilter {
 
 		System.out.println(state.getTime());
 
+		for (Entity entity : state.getWorldModel().getAllEntities()) {
+			if (entity instanceof Blockade) {
+				System.out.println(((Blockade) entity).getURN());
+				for (int i : ((Blockade) entity).getApexes()) {
+					System.out.println(i);
+				}
+			}
+		}
+
 		if (!sokcetLock) {
 			// time 0の時のみ
 			if (!registered) {
@@ -86,19 +98,26 @@ public class SingleCommandFilter implements CommandFilter {
 										+ "," + String.valueOf(h.getPosition().getValue()));
 					}
 				}
-
 				socketServer.publishCommand("orient_scenario");
 				socketServer.waitCommand("ready_scenario");
 				registered = true;
-			}
-
-			// 毎time
-			for (Entity entity : state.getWorldModel().getAllEntities()) {
-				if (entity instanceof Human) {
-					socketServer.publishServer(serverReader.readerAgentSteta((Human) entity));
+			} else {
+				// 毎time
+				for (Entity entity : state.getWorldModel().getAllEntities()) {
+					if (entity instanceof Human) {
+						socketServer.publishServer(serverReader.readerAgentSteta((Human) entity));
+					}
+					if (entity instanceof Road) {
+					}
+					if (entity instanceof Building) {
+						socketServer.publishServer(serverReader.readerBuildingState((Building) entity));
+					}
+					if (entity instanceof Blockade) {
+						socketServer.publishServer(serverReader.readerBlockade((Blockade) entity));
+					}
 				}
+				socketServer.waitCommand("next");
 			}
-			socketServer.waitCommand("next");
 		}
 
 		Set<EntityID> sent = new HashSet<EntityID>();

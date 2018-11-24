@@ -3,6 +3,8 @@ package roborescuemod.reader;
 import java.util.ArrayList;
 
 import rescuecore2.standard.entities.AmbulanceTeam;
+import rescuecore2.standard.entities.Blockade;
+import rescuecore2.standard.entities.Building;
 import rescuecore2.standard.entities.Civilian;
 import rescuecore2.standard.entities.FireBrigade;
 import rescuecore2.standard.entities.Human;
@@ -77,4 +79,25 @@ public class ServerReader {
 		return msgs;
 	}
 
+	public ArrayList<String> readerBuildingState(Building building) {
+		ArrayList<String> msgs = new ArrayList<>();
+		// {building_state, entityID, brokenness, fieriness, temperature}
+		msgs.add("building_state");
+		msgs.add(String.valueOf(building.getID()));
+		msgs.add(String.valueOf(building.getBrokenness()));
+		msgs.add(String.valueOf(building.getFieryness()));
+		msgs.add(String.valueOf(building.getTemperature()));
+		return msgs;
+	}
+
+	public ArrayList<String> readerBlockade(Blockade blockade) {
+		ArrayList<String> msgs = new ArrayList<>();
+		// {blockade, entityID, apexes, ・・・}
+		msgs.add("blockade");
+		msgs.add(String.valueOf(blockade.getID()));
+		for (int p : blockade.getApexes()) {
+			msgs.add(String.valueOf(p));
+		}
+		return msgs;
+	}
 }
