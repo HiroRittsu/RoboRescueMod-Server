@@ -7,9 +7,10 @@ import rescuecore2.config.Config;
 import rescuecore2.messages.Command;
 import rescuecore2.worldmodel.Entity;
 import rescuecore2.worldmodel.EntityID;
-import roborescuemod.config.ConfigReader;
-import roborescuemod.config.GmlReader;
 import roborescuemod.kernel.SocketServer;
+import roborescuemod.reader.ConfigReader;
+import roborescuemod.reader.GmlReader;
+import roborescuemod.reader.ServerReader;
 import rescuecore2.log.Logger;
 
 import rescuecore2.standard.messages.AKClearArea;
@@ -39,50 +40,65 @@ public class SingleCommandFilter implements CommandFilter {
 	public ConfigReader configReader;
 	public SocketServer socketServer;
 	public GmlReader gmlReader;
+	public ServerReader serverReader;
 	public Document document;
 	public boolean registered = false;
+	private boolean sokcetLock = true;
 
 	@Override
 	public void initialise(Config config) {
 
-		socketServer = new SocketServer(12345, "localhost");
+		if (!sokcetLock) {
+			socketServer = new SocketServer(12345, "localhost");
+			serverReader = new ServerReader();
 
-		// configを送信
-		configReader = new ConfigReader();
-		gmlReader = new GmlReader();
+			// configを送信
+			configReader = new ConfigReader();
+			gmlReader = new GmlReader();
 
-		document = gmlReader.openGML(configReader.getGmlPath(config));
+			document = gmlReader.openGML(configReader.getGmlPath(config));
 
-		socketServer.publishConfig(configReader.readNode(document));
-		socketServer.publishConfig(configReader.readEdge(document));
-		socketServer.publishConfig(configReader.readRoads(document));
-		socketServer.publishConfig(configReader.readBuildings(document));
+			socketServer.publishConfig(configReader.readNode(document));
+			socketServer.publishConfig(configReader.readEdge(document));
+			socketServer.publishConfig(configReader.readRoads(document));
+			socketServer.publishConfig(configReader.readBuildings(document));
 
-		socketServer.publishCommand("registry_map");
+			socketServer.publishCommand("registry_map");
 
-		socketServer.waitCommand("ready_map");
-
+			socketServer.waitCommand("ready_map");
+		}
 	}
 
 	@Override
 	public void filter(Collection<Command> commands, KernelState state) {
 
 		System.out.println(state.getTime());
-		if (!registered) {
+
+		if (!sokcetLock) {
+			// time 0の時のみ
+			if (!registered) {
+				for (Entity entity : state.getWorldModel().getAllEntities()) {
+					if (entity instanceof Human) {
+						Human h = (Human) entity;
+						System.out.println(h.getURN().split(":")[3]);
+						socketServer.publishScenario(
+								"scenario," + h.getURN().split(":")[3] + "," + String.valueOf(h.getID().getValue())
+										+ "," + String.valueOf(h.getPosition().getValue()));
+					}
+				}
+
+				socketServer.publishCommand("orient_scenario");
+				socketServer.waitCommand("ready_scenario");
+				registered = true;
+			}
+
+			// 毎time
 			for (Entity entity : state.getWorldModel().getAllEntities()) {
 				if (entity instanceof Human) {
-					Human h = (Human) entity;
-					System.out.println(h.getURN().split(":")[3]);
-					socketServer.publishScenario("scenario," + h.getURN().split(":")[3] + ","
-							+ String.valueOf(h.getID().getValue()) + "," + String.valueOf(h.getPosition().getValue()));
+					socketServer.publishServer(serverReader.readerAgentSteta((Human) entity));
 				}
 			}
-			
-			socketServer.publishCommand("orient_scenario");
-
-			socketServer.waitCommand("ready_scenario");
-
-			registered = true;
+			socketServer.waitCommand("next");
 		}
 
 		Set<EntityID> sent = new HashSet<EntityID>();

@@ -1,4 +1,4 @@
-package roborescuemod.config;
+package roborescuemod.reader;
 
 import java.util.ArrayList;
 

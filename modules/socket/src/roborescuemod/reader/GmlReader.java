@@ -1,4 +1,4 @@
-package roborescuemod.config;
+package roborescuemod.reader;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -17,10 +17,6 @@ public class GmlReader {
 			System.out.println("Not Found");
 			e.printStackTrace();
 		}
-
 		return doc;
 	}
-	
-	
-
 }

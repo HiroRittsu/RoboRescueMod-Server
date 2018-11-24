@@ -1,3 +1,3 @@
 gradle clean
 gradle completeBuild
-bash ../RioneLauncher.sh
+bash ../Launcher.sh

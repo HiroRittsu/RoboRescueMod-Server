@@ -25,6 +25,12 @@ public class SocketServer {
 		originalSocket.publishMsgs(msg);
 	}
 
+	public void publishServer(ArrayList<String> msgs) {
+		for (String msg : msgs) {
+			originalSocket.publishMsgs(msg);
+		}
+	}
+
 	public void publishCommand(String command) {
 		switch (command) {
 		case "registry_map":
