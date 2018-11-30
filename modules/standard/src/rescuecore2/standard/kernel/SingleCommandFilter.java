@@ -46,7 +46,7 @@ public class SingleCommandFilter implements CommandFilter {
 	public ServerReader serverReader;
 	public Document document;
 	public boolean registered = false;
-	private boolean sokcetLock = true;
+	private boolean sokcetLock = false;
 
 	@Override
 	public void initialise(Config config) {
@@ -105,17 +105,19 @@ public class SingleCommandFilter implements CommandFilter {
 				// 毎time
 				for (Entity entity : state.getWorldModel().getAllEntities()) {
 					if (entity instanceof Human) {
-						socketServer.publishServer(serverReader.readerAgentSteta((Human) entity));
+						socketServer.publishStetas(serverReader.readerAgentSteta((Human) entity));
 					}
 					if (entity instanceof Road) {
 					}
 					if (entity instanceof Building) {
-						socketServer.publishServer(serverReader.readerBuildingState((Building) entity));
+						socketServer.publishStetas(serverReader.readerBuildingState((Building) entity));
 					}
 					if (entity instanceof Blockade) {
-						socketServer.publishServer(serverReader.readerBlockade((Blockade) entity));
+						socketServer.publishStetas(serverReader.readerBlockade((Blockade) entity));
 					}
 				}
+				socketServer.publishStetas(serverReader.readerTime(state));
+				socketServer.publishCommand("orient_stetas");
 				socketServer.waitCommand("next");
 			}
 		}

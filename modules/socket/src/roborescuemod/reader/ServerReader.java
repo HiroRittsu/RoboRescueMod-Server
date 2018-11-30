@@ -1,7 +1,6 @@
 package roborescuemod.reader;
 
-import java.util.ArrayList;
-
+import kernel.KernelState;
 import rescuecore2.standard.entities.AmbulanceTeam;
 import rescuecore2.standard.entities.Blockade;
 import rescuecore2.standard.entities.Building;
@@ -12,92 +11,100 @@ import rescuecore2.standard.entities.PoliceForce;
 
 public class ServerReader {
 
-	public ArrayList<String> readerAgentSteta(Human human) {
+	public String readerTime(KernelState state) {
+		String msg = "time";
+		msg += "," + String.valueOf(state.getTime());
+		return msg;
+	}
 
-		ArrayList<String> msgs = new ArrayList<>();
+	public String readerAgentSteta(Human human) {
 
-		if (human instanceof Civilian) {
+		String msg = "";
+
+		/*if (human instanceof Civilian) {
 			Civilian civilian = (Civilian) human;
 			// {civilian, entityID, HP, historyX, historyZ ・・・}
-			msgs.add("civilian");
-			msgs.add(String.valueOf(civilian.getID()));
-			msgs.add(String.valueOf(civilian.getHP()));
+			msg += "civilian_steta";
+			msg += "," + String.valueOf(civilian.getID());
+			msg += "," + String.valueOf(civilian.getHP());
 			try {
 				for (int p : civilian.getPositionHistory()) {
-					msgs.add(String.valueOf(p));
+					msg += "," + String.valueOf(p);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("ぬるぽ。");
 			}
-		}
+			return msg;
+		}*/
 
 		if (human instanceof AmbulanceTeam) {
 			AmbulanceTeam ambulanceTeam = (AmbulanceTeam) human;
 			// {ambulanceteam, enriryID, HP, historyX, historyZ ・・・}
-			msgs.add("ambulanceteam");
-			msgs.add(String.valueOf(ambulanceTeam.getID()));
-			msgs.add(String.valueOf(ambulanceTeam.getHP()));
+			msg += "ambulanceteam_steta";
+			msg += "," + String.valueOf(ambulanceTeam.getID());
+			msg += "," + String.valueOf(ambulanceTeam.getHP());
 			try {
 				for (int p : ambulanceTeam.getPositionHistory()) {
-					msgs.add(String.valueOf(p));
+					msg += "," + String.valueOf(p);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("ぬるぽ。");
 			}
+			return msg;
 		}
-
+/*
 		if (human instanceof FireBrigade) {
 			FireBrigade fireBrigade = (FireBrigade) human;
 			// {firebrigade, enriryID, HP, Water, historyX, historyZ ・・・}
-			msgs.add("firebrigade");
-			msgs.add(String.valueOf(fireBrigade.getID()));
-			msgs.add(String.valueOf(fireBrigade.getHP()));
-			msgs.add(String.valueOf(fireBrigade.getWater()));
+			msg += "firebrigade_steta";
+			msg += "," + String.valueOf(fireBrigade.getID());
+			msg += "," + String.valueOf(fireBrigade.getHP());
+			msg += "," + String.valueOf(fireBrigade.getWater());
 			try {
 				for (int p : fireBrigade.getPositionHistory()) {
-					msgs.add(String.valueOf(p));
+					msg += "," + String.valueOf(p);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("ぬるぽ。");
 			}
+			return msg;
 		}
 
 		if (human instanceof PoliceForce) {
 			PoliceForce policeForce = (PoliceForce) human;
 			// {policeforce, enriryID, HP, historyX, historyZ ・・・}
-			msgs.add("ambulanceteam");
-			msgs.add(String.valueOf(policeForce.getID()));
-			msgs.add(String.valueOf(policeForce.getHP()));
+			msg += "policeforce_steta";
+			msg += "," + String.valueOf(policeForce.getID());
+			msg += "," + String.valueOf(policeForce.getHP());
 			try {
 				for (int p : policeForce.getPositionHistory()) {
-					msgs.add(String.valueOf(p));
+					msg += "," + String.valueOf(p);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("ぬるぽ。");
 			}
-		}
-		return msgs;
+			return msg;
+		}*/
+		return msg;
 	}
 
-	public ArrayList<String> readerBuildingState(Building building) {
-		ArrayList<String> msgs = new ArrayList<>();
+	public String readerBuildingState(Building building) {
 		// {building_state, entityID, brokenness, fieriness, temperature}
-		msgs.add("building_state");
-		msgs.add(String.valueOf(building.getID()));
-		msgs.add(String.valueOf(building.getBrokenness()));
-		msgs.add(String.valueOf(building.getFieryness()));
-		msgs.add(String.valueOf(building.getTemperature()));
-		return msgs;
+		String msg = "building_state";
+		msg += "," + String.valueOf(building.getID());
+		msg += "," + String.valueOf(building.getBrokenness());
+		msg += "," + String.valueOf(building.getFieryness());
+		msg += "," + String.valueOf(building.getTemperature());
+		return msg;
 	}
 
-	public ArrayList<String> readerBlockade(Blockade blockade) {
-		ArrayList<String> msgs = new ArrayList<>();
+	public String readerBlockade(Blockade blockade) {
 		// {blockade, entityID, apexes, ・・・}
-		msgs.add("blockade");
-		msgs.add(String.valueOf(blockade.getID()));
+		String msg = "blockade_steta";
+		msg += "," + String.valueOf(blockade.getID());
 		for (int p : blockade.getApexes()) {
-			msgs.add(String.valueOf(p));
+			msg += "," + String.valueOf(p);
 		}
-		return msgs;
+		return msg;
 	}
 }
