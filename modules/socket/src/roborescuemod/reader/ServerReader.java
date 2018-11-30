@@ -21,7 +21,7 @@ public class ServerReader {
 
 		String msg = "";
 
-		/*if (human instanceof Civilian) {
+		if (human instanceof Civilian) {
 			Civilian civilian = (Civilian) human;
 			// {civilian, entityID, HP, historyX, historyZ ・・・}
 			msg += "civilian_steta";
@@ -35,7 +35,7 @@ public class ServerReader {
 				System.out.println("ぬるぽ。");
 			}
 			return msg;
-		}*/
+		}
 
 		if (human instanceof AmbulanceTeam) {
 			AmbulanceTeam ambulanceTeam = (AmbulanceTeam) human;
@@ -52,7 +52,7 @@ public class ServerReader {
 			}
 			return msg;
 		}
-/*
+
 		if (human instanceof FireBrigade) {
 			FireBrigade fireBrigade = (FireBrigade) human;
 			// {firebrigade, enriryID, HP, Water, historyX, historyZ ・・・}
@@ -84,7 +84,7 @@ public class ServerReader {
 				System.out.println("ぬるぽ。");
 			}
 			return msg;
-		}*/
+		}
 		return msg;
 	}
 
