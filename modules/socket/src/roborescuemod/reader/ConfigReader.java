@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-import rescuecore.tools.simulationrunner.Team;
 import rescuecore2.config.Config;
 
 public class ConfigReader {
@@ -166,7 +165,8 @@ public class ConfigReader {
 			Element face = (Element) next3;
 			for (Object next4 : face.elements("directedEdge")) {
 				Element directededge = (Element) next4;
-				if (!directededge.attributeValue("neighbour").isEmpty()) {
+				System.out.println("################neighbour " + directededge.attributeValue("neighbour"));
+				if (directededge.attributeValue("neighbour") != null) {
 					data += "," + directededge.attributeValue("neighbour");
 				}
 			}
@@ -183,7 +183,7 @@ public class ConfigReader {
 			for (Object next2 : roadList.elements("building")) {
 				Element building = (Element) next2;
 				// {edgeID, ・・・}
-				String tmp = readBuildingData(building);
+				String tmp = readNeighbourID(building);
 				if (tmp != "") {
 					msgs.add("building_neighbour" + tmp);
 				}
