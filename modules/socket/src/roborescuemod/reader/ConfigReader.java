@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import rescuecore.tools.simulationrunner.Team;
 import rescuecore2.config.Config;
 
 public class ConfigReader {
@@ -150,6 +151,42 @@ public class ConfigReader {
 				id = readID(building);
 				// {entityID, floor, material, edgeID,・・・ }
 				msgs.add("building," + id + readBuildingData(building));
+			}
+		}
+		return msgs;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	public String readNeighbourID(Element building) {
+
+		String data = "";
+
+		for (Object next3 : building.elements("Face")) {
+			Element face = (Element) next3;
+			for (Object next4 : face.elements("directedEdge")) {
+				Element directededge = (Element) next4;
+				if (!directededge.attributeValue("neighbour").isEmpty()) {
+					data += "," + directededge.attributeValue("neighbour");
+				}
+			}
+		}
+		return data;
+	}
+
+	public ArrayList<String> readBuildingNeighbour(Document doc) {
+
+		ArrayList<String> msgs = new ArrayList<>();
+
+		for (Object next : doc.getRootElement().elements("buildinglist")) {
+			Element roadList = (Element) next;
+			for (Object next2 : roadList.elements("building")) {
+				Element building = (Element) next2;
+				// {edgeID, ・・・}
+				String tmp = readBuildingData(building);
+				if (tmp != "") {
+					msgs.add("building_neighbour" + tmp);
+				}
 			}
 		}
 		return msgs;

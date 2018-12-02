@@ -65,6 +65,7 @@ public class SingleCommandFilter implements CommandFilter {
 			socketServer.publishConfig(configReader.readEdge(document));
 			socketServer.publishConfig(configReader.readRoads(document));
 			socketServer.publishConfig(configReader.readBuildings(document));
+			socketServer.publishConfig(configReader.readBuildingNeighbour(document)); //neighbour
 
 			socketServer.publishCommand("registry_map");
 
