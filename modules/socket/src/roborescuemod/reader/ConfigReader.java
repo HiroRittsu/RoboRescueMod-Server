@@ -165,9 +165,8 @@ public class ConfigReader {
 			Element face = (Element) next3;
 			for (Object next4 : face.elements("directedEdge")) {
 				Element directededge = (Element) next4;
-				System.out.println("################neighbour " + directededge.attributeValue("neighbour"));
 				if (directededge.attributeValue("neighbour") != null) {
-					data += "," + directededge.attributeValue("neighbour");
+					data += "," + directededge.attributeValue("href").replaceAll("#", "");
 				}
 			}
 		}
